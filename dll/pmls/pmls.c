@@ -42,7 +42,7 @@ int main(int argc, char **argv)
 {
         struct context ctx;
         char *buffer;
-        size_t len;
+        size_t len, ctr;
 
         if (argc != 3) {
                 printf("usage: %s <input_plugin> <output_plugin>\n", argv[0]);
@@ -63,10 +63,12 @@ int main(int argc, char **argv)
                     break;
                 }
 
+                ctr += len;
                 ctx.output->write(ctx.outfd, buffer, len);
                 free(buffer);
         }
 
+        fprintf(stderr, "Processed %ld bytes\n", ctr);
         dlclose(ctx.input);
         dlclose(ctx.output);
 
