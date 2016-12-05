@@ -14,4 +14,4 @@ binary:
 	$(CC) $(CFLAGS) $(APPNAME).c -o $(APPNAME) -I . -l helloworld -L .
 
 clean:
-	rm -rf core *~ $(LIBNAME) 
+	rm -rf core *~ $(LIBNAME)  $(APPNAME)
